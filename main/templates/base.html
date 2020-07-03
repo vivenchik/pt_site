@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}POST TRIBE{% endblock %}</title>
+</head>
+<body>
+    <a href="{% url 'index' %}">Start Page</a>
+    <br>
+    <a href="{% url 'projects_list' %}">Projects Page</a>
+    <br>
+    {% block content %}{% endblock %}
+</body>
+</html>

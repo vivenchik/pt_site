@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>
+        Project {{ project.project_name }}
+        <br>
+        Status {{ project.project_status }}
+        <br>
+        Deadline {{ project.project_deadline }}
+        <br>
+    </p>
+{%  endblock %}
