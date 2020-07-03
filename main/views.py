@@ -23,3 +23,7 @@ def projects_list(request):
         'projects': projects,
     }
     return render(request, 'projects_list.html', context)
+
+
+def login(request):
+    return render(request, 'login.html')
