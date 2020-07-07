@@ -1,5 +1,15 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, User
+
+
+class MyUser(AbstractBaseUser):
+    identifier = models.CharField(max_length=40, unique=True, default='')
+    USERNAME_FIELD = 'identifier'
+
+
+class MySmartUser(User):
+    pass
 
 
 class Project(models.Model):
