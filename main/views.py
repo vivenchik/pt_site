@@ -18,8 +18,11 @@ def index(request):
 @my_login_required
 def project_page(request, project_name):
     question = get_object_or_404(Project, project_name=project_name)
+    team = Project.objects.get(project_name=project_name).team.all()
+    team_names = (item.username for item in team)
     context = {
         'project': question,
+        'team_names': team_names,
     }
     return render(request, 'project.html', context)
 

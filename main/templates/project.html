@@ -8,5 +8,11 @@
         <br>
         Deadline {{ project.project_deadline }}
         <br>
+        Team:
+        <br>
+        {% for name in team_names %}
+            {{ name }}
+            <br>
+        {% endfor %}
     </p>
 {%  endblock %}
