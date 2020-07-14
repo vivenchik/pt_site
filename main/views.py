@@ -9,12 +9,16 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 
-@login_required(login_url='/login/google-oauth2/', redirect_field_name='')
+def my_login_required(func):
+    return login_required(function=func, login_url='/login/google-oauth2/', redirect_field_name='')
+
+
+@my_login_required
 def index(request):
     return render(request, 'index.html')
 
 
-@login_required(login_url='/login/google-oauth2/', redirect_field_name='')
+@my_login_required
 def project_page(request, project_name):
     question = get_object_or_404(Project, project_name=project_name)
     context = {
@@ -23,7 +27,7 @@ def project_page(request, project_name):
     return render(request, 'project.html', context)
 
 
-@login_required(login_url='/login/google-oauth2/', redirect_field_name='')
+@my_login_required
 def projects_list(request):
     projects = Project.objects.order_by('-project_deadline')
     context = {
@@ -37,7 +41,7 @@ def logout(request):
     return redirect('/')
 
 
-@login_required(login_url='/login/google-oauth2/', redirect_field_name='')
+@my_login_required
 def personal(request):
     context = {
         'username': request.user.username,
