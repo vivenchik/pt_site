@@ -1,10 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
 from .models import Project
-from django.http import Http404
-from django.template import loader
-from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
-from .forms import LoginForm
+from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
