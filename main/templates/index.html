@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    This is start page
+    <div class="jumbotron">
+        <h1>My fake blog!</h1>
+        {% if user.is_authenticated %}
+          <p>Logged as {{ user.username }}</p>
+          <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
+            Login
+          </a>
+        {% endif %}
+      </div>
 {% endblock %}
