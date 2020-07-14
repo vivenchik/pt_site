@@ -12,5 +12,14 @@
         <br>
         Group {{ groups }}
         <br>
+        {% if projects %}
+            <ul>
+                {% for project in projects %}
+                    <li><a href="{% url 'project_page' project.project_name %}">{{ project }}</a> </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No projects</p>
+        {%  endif %}
     </p>
 {%  endblock %}

@@ -38,12 +38,14 @@ def projects_list(request):
 
 @my_login_required
 def personal(request):
+    projects = Project.objects.filter(team__username=request.user.username)
     context = {
         'username': request.user.username,
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,
         'email': request.user.email,
         'groups': request.user.groups.all()[0].name if len(request.user.groups.all()) != 0 else '',
+        'projects': projects,
     }
     return render(request, 'personal.html', context)
 
