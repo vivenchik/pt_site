@@ -3,10 +3,11 @@ from .models import Project
 from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.conf import settings
 
 
 def my_login_required(func):
-    return login_required(function=func, login_url='/login/google-oauth2/', redirect_field_name='')
+    return login_required(function=func, login_url=settings.LOGIN_URL, redirect_field_name='')
 
 
 @my_login_required
@@ -32,11 +33,6 @@ def projects_list(request):
     return render(request, 'projects_list.html', context)
 
 
-def logout(request):
-    dj_logout(request)
-    return redirect('/')
-
-
 @my_login_required
 def personal(request):
     context = {
@@ -47,3 +43,8 @@ def personal(request):
         'groups': request.user.groups.all()[0].name if len(request.user.groups.all()) != 0 else '',
     }
     return render(request, 'personal.html', context)
+
+
+def logout(request):
+    dj_logout(request)
+    return redirect(settings.LOGOUT_REDIRECT_URL)
