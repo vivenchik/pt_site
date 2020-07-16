@@ -29,7 +29,7 @@ def project_page(request, project_name):
 
 @my_login_required
 def projects_list(request):
-    projects = Project.objects.order_by('-project_deadline')
+    projects = Project.objects.order_by('project_deadline')
     my_projects = Project.objects.filter(team__username=request.user.username)
     my_projects_names = list(item.project_name for item in my_projects)
     context = {

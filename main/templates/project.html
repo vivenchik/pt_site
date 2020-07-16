@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>
-        Project {{ project.project_name }}
-        <br>
-        Status {{ project.project_status }}
-        <br>
-        Deadline {{ project.project_deadline }}
-        <br>
-        Team:
-        <br>
-        {% for name in team_names %}
-            {{ name }}
-            <br>
-        {% endfor %}
-    </p>
+    <div class="container">
+        <div class="row m-4">
+            <p class="h3">
+                Project Name: {{ project.project_name }}
+                <br>
+                Status: {% widthratio project.project_status 1 100 %}%
+                <br>
+                Deadline: {{ project.project_deadline }}
+                <br>
+                <br>
+                Team:
+                <br>
+                {% for name in team_names %}
+                    {{ name }}
+                    <br>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
 {%  endblock %}

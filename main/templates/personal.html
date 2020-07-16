@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>
-        Username {{ username }}
-        <br>
-        First name {{ first_name }}
-        <br>
-        Last name {{ last_name }}
-        <br>
-        Email {{ email }}
-        <br>
-        Group {{ groups }}
-        <br>
-        {% if projects %}
-            <ul>
-                {% for project in projects %}
-                    <li><a href="{% url 'project_page' project.project_name %}">{{ project }}</a> </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No projects</p>
-        {%  endif %}
-    </p>
+<div class="container">
+    <div class="row m-4">
+        <p class="h4">
+            Username: {{ username }}
+            <br>
+            First name: {{ first_name }}
+            <br>
+            Last name: {{ last_name }}
+            <br>
+            Email: {{ email }}
+            <br>
+            Group: {{ groups }}
+            <br>
+            {% if projects %}
+                <ul>
+                    {% for project in projects %}
+                        <li><a href="{% url 'project_page' project.project_name %}">{{ project }}</a> </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No projects</p>
+            {%  endif %}
+        </p>
+    </div>
+</div>
 {%  endblock %}
