@@ -29,7 +29,11 @@ class FatherViewTest(TestCase):
         if not with_out_user:
             self.client.login(username='TestUser', password='0000')
         resp = self.client.get(url, follow=True)
-        self.assertEqual(resp.status_code, 200 if not with_out_user else 400)
+        if not with_out_user:
+            self.assertEqual(resp.status_code, 200)
+            self.assertTemplateUsed(resp, 'base.html')
+        else:
+            self.assertTemplateUsed(resp, 'to_login.html')
         return resp
 
 
@@ -128,25 +132,14 @@ class IndexViewTest(FatherViewTest):
 
 class LogoutViewTest(FatherViewTest):
     def test_view_url_fail_auth(self):
-        self.client.get('/logout/', follow=True)
-        resp = self.client.get('/', follow=True)
-        self.assertEqual(resp.status_code, 400)
+        self.go_to_page_by_url('/logout/', with_out_user=True)
 
     def test_view_url(self):
         self.client.login(username='TestUser', password='0000')
-        resp = self.client.get('/', follow=True)
-        self.assertEqual(resp.status_code, 200)
-
-        self.client.get('/logout/', follow=True)
-        resp = self.client.get('/', follow=True)
-        self.assertEqual(resp.status_code, 400)
+        resp = self.client.get('/logout/', follow=True)
+        self.assertTemplateUsed(resp, 'to_login.html')
 
     def test_view_url_by_name(self):
         self.client.login(username='TestUser', password='0000')
-        resp = self.client.get(reverse('index'), follow=True)
-        self.assertEqual(resp.status_code, 200)
-
-        self.client.get(reverse('logout'), follow=True)
-        resp = self.client.get(reverse('index'), follow=True)
-        self.assertEqual(resp.status_code, 400)
-
+        resp = self.client.get(reverse('logout'), follow=True)
+        self.assertTemplateUsed(resp, 'to_login.html')

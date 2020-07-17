@@ -7,11 +7,12 @@ from django.conf import settings
 
 
 def my_login_required(func):
-    return login_required(function=func, login_url=settings.LOGIN_URL, redirect_field_name='')
+    return login_required(function=func, login_url='/', redirect_field_name='')
 
 
-@my_login_required
 def index(request):
+    if not request.user.is_authenticated:
+        return render(request, 'to_login.html', context={'login_url': settings.LOGIN_URL})
     return render(request, 'index.html')
 
 
