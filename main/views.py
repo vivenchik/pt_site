@@ -19,7 +19,7 @@ def index(request):
 def project_page(request, project_name):
     question = get_object_or_404(Project, project_name=project_name)
     team = Project.objects.get(project_name=project_name).team.all()
-    team_names = (item.username for item in team)
+    team_names = list(item.username for item in team)
     context = {
         'project': question,
         'team_names': team_names,
@@ -47,7 +47,7 @@ def personal(request):
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,
         'email': request.user.email,
-        'groups': request.user.groups.all()[0].name if len(request.user.groups.all()) != 0 else '',
+        'groups': request.user.groups.all()[0].name if len(request.user.groups.all()) != 0 else '',  # TODO
         'projects': projects,
     }
     return render(request, 'personal.html', context)

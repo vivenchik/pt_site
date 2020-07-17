@@ -7,3 +7,4 @@ omit =
     main/apps.py
     manage.py
     pt_site/settings.py
+    *urls.py
