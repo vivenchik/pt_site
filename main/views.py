@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Project
+from .models import Project, MomentInProject
 from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -21,9 +21,13 @@ def project_page(request, project_name):
     question = get_object_or_404(Project, project_name=project_name)
     team = Project.objects.get(project_name=project_name).team.all()
     team_names = list(item.username for item in team)
+    moments = list(MomentInProject.objects.filter(project__project_name=project_name).order_by('sort_key'))
     context = {
         'project': question,
         'team_names': team_names,
+        'moments': moments,
+        'first_id': moments[0].id,
+        'last_id': moments[-1].id,
     }
     return render(request, 'project.html', context)
 
