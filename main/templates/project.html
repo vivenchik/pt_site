@@ -61,7 +61,11 @@
                             {% if moment.status == 'R' %} text-success
                             {% else %} text-muted
                             {% endif %}">
-                            {{ moment.upload_time }}</div>
+                            {{ moment.upload_time }}
+                            {% if moment.author %}
+                                <hr>
+                                {{ moment.author }}
+                            {% endif %}</div>
                         <h4 class="card-title
                             {% if moment.status == 'R' %} text-success
                             {% elif moment.status == 'NR' %} text-muted
@@ -69,11 +73,29 @@
                             {{ moment.header }}</h4>
                         <p class="card-text">{{ moment.description }}</p>
 
-                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t{{ moment.id }}_details" data-toggle="collapse">Show Details ▼</button>
+                        <button class="btn btn-sm btn-outline-secondary my-2" type="button" data-target="#t{{ moment.id }}_details" data-toggle="collapse">Show Details ▼</button>
                         <div class="collapse border" id="t{{ moment.id }}_details">
                             <div class="p-2 text-monospace">
-                                {{ moment.details }}
+                                <pre>{{ moment.details }}</pre>
                             </div>
+                            <form action="" method="post" class="m-2">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" name="details" class="p-2 text-monospace form-control input-lg">
+                                </div>
+                                <input type="submit" name="mom{{ moment.id }}" value="Submit" class="btn btn-sm btn-outline-secondary my-2"/>
+                            </form>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary my-2" type="button" data-target="#ti{{ moment.id }}_details" data-toggle="collapse">Show Image ▼</button>
+                        <div class="collapse border" id="ti{{ moment.id }}_details">
+                            {% if moment.moment_image %}
+                                <img src="{{ moment.moment_image.url }}" class="img-fluid">
+                            {% endif %}
+                            <form action="" method="post" enctype="multipart/form-data" class="m-2">
+                                {% csrf_token %}
+                                <input type="file" name="image">
+                                <input type="submit" name="mom{{ moment.id }}" value="Submit"/>
+                            </form>
                         </div>
                     </div>
                 </div>
