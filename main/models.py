@@ -45,5 +45,10 @@ class MomentInProject(models.Model):
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='NR')
 
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     self.project.project_status = len(MomentInProject.objects.filter(project=self.project, status='R')) / self.project.number_of_moments
+    #     self.project.save()
+
     def __str__(self):
         return 'Project {}, Moment {}, {}\n'.format(self.project.project_name, self.sort_key, self.status)

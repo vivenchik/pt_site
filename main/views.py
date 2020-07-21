@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from .forms import MomentFormDetails, MomentFormImage
 from datetime import datetime
+from django.urls import reverse
 
 
 def my_login_required(func):
@@ -20,6 +21,8 @@ def index(request):
 
 @my_login_required
 def project_page(request, project_name):
+    if request.user not in Project.objects.get(project_name=project_name).team.all():
+        return redirect(reverse('projects_list'))
     if request.method == 'POST':
         form_det = MomentFormDetails(request.POST)
         form_img = MomentFormImage(request.POST, request.FILES)
@@ -39,6 +42,7 @@ def project_page(request, project_name):
                     moment.upload_time = datetime.now()
                     moment.status = 'IP'
                     moment.save()
+        return redirect(reverse('project_page', args=[project_name]))
 
     question = get_object_or_404(Project, project_name=project_name)
     team = Project.objects.get(project_name=project_name).team.all()
@@ -52,8 +56,8 @@ def project_page(request, project_name):
         'project': question,
         'team_names': team_names,
         'moments': moments,
-        'first_id': moments[0].id,
-        'last_id': moments[-1].id,
+        'first_id': moments[0].id if moments else 0,
+        'last_id': moments[-1].id if moments else 0,
         'form_det': form_det,
         'form_img': form_img,
     }
