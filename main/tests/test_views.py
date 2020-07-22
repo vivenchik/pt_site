@@ -1,5 +1,5 @@
 from django.test import TestCase
-from main.models import Project
+from main.models import Project, MomentInProject
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 import random
@@ -10,7 +10,8 @@ class FatherViewTest(TestCase):
     def setUpTestData(cls):
         number_of_projects = 20
         for project_number in range(1, number_of_projects + 1):
-            Project.objects.create(project_name='Project %s' % project_number, project_status=random.uniform(0, 1))
+            Project.objects.create(project_name='Project %s' % project_number, project_status=random.uniform(0, 1),
+                                   number_of_moments=random.randint(0, 10))
         group = Group.objects.create(name='FREELANCER')
         user = User.objects.create(username='TestUser')
         user.set_password('0000')
@@ -81,11 +82,21 @@ class ProjectViewTest(FatherViewTest):
         self.assertTemplateUsed(resp, 'project.html')
         self.assertTemplateUsed(resp, 'base.html')
 
+    def test_user_not_in_team(self):
+        self.client.login(username='TestUser', password='0000')
+        resp = self.client.get(reverse('project_page', args=['Project 2']), follow=True)
+        self.assertRedirects(resp, reverse('projects_list'))
+
     def test_context(self):
         resp = self.go_to_page('project_page', args=['Project 1'])
         self.assertTrue('team_names' in resp.context)
         self.assertEqual(resp.context['team_names'], ['TestUser'])
         self.assertEqual(resp.context['project'], Project.objects.get(project_name='Project 1'))
+        self.assertEqual(resp.context['moments'], list(MomentInProject.objects.filter(
+            project__project_name='Project 1').order_by('sort_key')))
+        self.assertTrue('form_det' in resp.context)
+        self.assertTrue('form_img' in resp.context)
+        self.assertTrue('rest' in resp.context)
 
 
 class PersonalViewTest(FatherViewTest):

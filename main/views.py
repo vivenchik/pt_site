@@ -21,6 +21,7 @@ def index(request):
 
 @my_login_required
 def project_page(request, project_name):
+    project = get_object_or_404(Project, project_name=project_name)
     if request.user not in Project.objects.get(project_name=project_name).team.all():
         return redirect(reverse('projects_list'))
     if request.method == 'POST':
@@ -44,7 +45,6 @@ def project_page(request, project_name):
                     moment.save()
         return redirect(reverse('project_page', args=[project_name]))
 
-    question = get_object_or_404(Project, project_name=project_name)
     team = Project.objects.get(project_name=project_name).team.all()
     team_names = list(item.username for item in team)
     moments = list(MomentInProject.objects.filter(project__project_name=project_name).order_by('sort_key'))
@@ -52,15 +52,15 @@ def project_page(request, project_name):
     form_det = MomentFormDetails()
     form_img = MomentFormImage()
 
-    rest_time = datetime.datetime.combine(question.project_deadline, datetime.time(0)) - datetime.datetime.now()
+    rest_time = datetime.datetime.combine(project.project_deadline, datetime.time(0)) - datetime.datetime.now()
     rest = rest_time.days
 
     context = {
-        'project': question,
+        'project': project,
         'team_names': team_names,
         'moments': moments,
-        'first_id': moments[0].id if moments else 0,
-        'last_id': moments[-1].id if moments else 0,
+        'first_id': moments[0].id if moments else 0,  # TODO
+        'last_id': moments[-1].id if moments else 0,  # TODO
         'form_det': form_det,
         'form_img': form_img,
         'rest': rest,
