@@ -7,6 +7,12 @@
                 Project Name: {{ project.project_name }}
                 <br>
                 Status: {% widthratio project.project_status 1 100 %}%
+                {% if project.main_audio %}
+                    <br><br>
+                    <audio controls preload="auto">
+                        <source src="{{ project.main_audio.url }}" type="audio/mpeg" />
+                    </audio>
+                {% endif %}
                 <hr>
                 Deadline: {{ project.project_deadline }} ({{ rest }} full days)
                 <br>

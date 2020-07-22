@@ -13,6 +13,8 @@ class Project(models.Model):
     team = models.ManyToManyField(User, blank=True)
     number_of_moments = models.IntegerField(default=0)
 
+    main_audio = models.FileField(upload_to='music', blank=True)
+
     def safe_save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
