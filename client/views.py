@@ -22,6 +22,7 @@ def client_project(request, project_name):
 
 
 def user_login(request, project_name):
+    project = get_object_or_404(ClientProject, project_name=project_name)
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -36,5 +37,6 @@ def user_login(request, project_name):
 
 
 def user_logout(request, project_name):
+    project = get_object_or_404(ClientProject, project_name=project_name)
     dj_logout(request)
     return redirect(reverse('client_login', args=[project_name]))
