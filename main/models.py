@@ -14,6 +14,7 @@ class Project(models.Model):
     number_of_moments = models.IntegerField(default=0)
 
     main_audio = models.FileField(upload_to='music', blank=True)
+    google_drive_link = models.URLField(blank=True)
 
     def safe_save(self, *args, **kwargs):
         super().save(*args, **kwargs)
