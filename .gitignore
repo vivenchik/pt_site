@@ -3,7 +3,7 @@
 db.sqlite3
 *__pycache__*
 *__init__.py
-main/migrations/
+*/migrations/
 .coverage
 htmlcov/
 media/
