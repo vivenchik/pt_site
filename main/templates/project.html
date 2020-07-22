@@ -7,8 +7,8 @@
                 Project Name: {{ project.project_name }}
                 <br>
                 Status: {% widthratio project.project_status 1 100 %}%
-                <br>
-                Deadline: {{ project.project_deadline }}
+                <hr>
+                Deadline: {{ project.project_deadline }} ({{ rest }} full days)
                 <br>
                 <br>
                 Team:
@@ -61,11 +61,10 @@
                             {% if moment.status == 'R' %} text-success
                             {% else %} text-muted
                             {% endif %}">
-                            {{ moment.upload_time }}
                             {% if moment.author %}
-                                <hr>
-                                {{ moment.author }}
-                            {% endif %}</div>
+                                {{ moment.author }} |
+                            {% endif %}
+                            {{ moment.upload_time }}</div>
                         <h4 class="card-title
                             {% if moment.status == 'R' %} text-success
                             {% elif moment.status == 'NR' %} text-muted
@@ -91,11 +90,13 @@
                             {% if moment.moment_image %}
                                 <img src="{{ moment.moment_image.url }}" class="img-fluid">
                             {% endif %}
-                            <form action="" method="post" enctype="multipart/form-data" class="m-2">
-                                {% csrf_token %}
-                                <input type="file" name="image">
-                                <input type="submit" name="mom{{ moment.id }}" value="Submit"/>
-                            </form>
+                            {% if moment.status != 'R' %}
+                                <form action="" method="post" enctype="multipart/form-data" class="m-2">
+                                    {% csrf_token %}
+                                    <input type="file" name="image">
+                                    <input type="submit" name="mom{{ moment.id }}" value="Submit"/>
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

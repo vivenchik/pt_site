@@ -13,6 +13,9 @@ class Project(models.Model):
     team = models.ManyToManyField(User, blank=True)
     number_of_moments = models.IntegerField(default=0)
 
+    def safe_save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         number_of_exists_moments = len(MomentInProject.objects.filter(project=self))
@@ -28,8 +31,8 @@ class Project(models.Model):
 class MomentInProject(models.Model):
     sort_key = models.FloatField(default=0)
     header = models.CharField(max_length=100, blank=True)
-    description = models.TextField(max_length=300, blank=True)
-    details = models.TextField(max_length=2000, blank=True)
+    description = models.TextField(max_length=500, blank=True)
+    details = models.TextField(max_length=10000, blank=True)
 
     project = models.ForeignKey(Project, null=True, blank=False, on_delete=models.CASCADE)
 
@@ -45,10 +48,10 @@ class MomentInProject(models.Model):
     )
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='NR')
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     self.project.project_status = len(MomentInProject.objects.filter(project=self.project, status='R')) / self.project.number_of_moments
-    #     self.project.save()
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.project.project_status = len(MomentInProject.objects.filter(project=self.project, status='R')) / self.project.number_of_moments
+        self.project.safe_save()
 
     def __str__(self):
         return 'Project {}, Moment {}, {}\n'.format(self.project.project_name, self.sort_key, self.status)

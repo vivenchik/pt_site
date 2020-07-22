@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.conf import settings
 from .forms import MomentFormDetails, MomentFormImage
-from datetime import datetime
+import datetime
 from django.urls import reverse
 
 
@@ -30,7 +30,7 @@ def project_page(request, project_name):
             moments = list(MomentInProject.objects.filter(project__project_name=project_name).order_by('sort_key'))
             for moment in moments:  # TODO
                 if 'mom%s' % moment.id in request.POST:
-                    moment.details += '[{} {}] {}\n'.format(datetime.now().strftime("%b %d %Y %H:%M:%S"),
+                    moment.details += '[{} {}] {}\n'.format(datetime.datetime.now().strftime("%b %d %Y %H:%M:%S"),
                                                             request.user, form_det.cleaned_data['details'])
                     moment.save()
         if form_img.is_valid():
@@ -39,7 +39,7 @@ def project_page(request, project_name):
                 if 'mom%s' % moment.id in request.POST:
                     moment.moment_image = form_img.cleaned_data['image']
                     moment.author = request.user
-                    moment.upload_time = datetime.now()
+                    moment.upload_time = datetime.datetime.now()
                     moment.status = 'IP'
                     moment.save()
         return redirect(reverse('project_page', args=[project_name]))
@@ -52,6 +52,9 @@ def project_page(request, project_name):
     form_det = MomentFormDetails()
     form_img = MomentFormImage()
 
+    rest_time = datetime.datetime.combine(question.project_deadline, datetime.time(0)) - datetime.datetime.now()
+    rest = rest_time.days
+
     context = {
         'project': question,
         'team_names': team_names,
@@ -60,6 +63,7 @@ def project_page(request, project_name):
         'last_id': moments[-1].id if moments else 0,
         'form_det': form_det,
         'form_img': form_img,
+        'rest': rest,
     }
     return render(request, 'project.html', context)
 

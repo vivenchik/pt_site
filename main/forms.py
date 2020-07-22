@@ -10,5 +10,5 @@ class MomentFormImage(forms.Form):
 
     def clean_image(self):
         data = self.cleaned_data['image']
-
+        # TODO warning
         return data
