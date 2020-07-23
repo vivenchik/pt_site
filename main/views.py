@@ -28,6 +28,7 @@ def my_login_required(func):
 
 def index(request):
     if not request.user.is_authenticated or not group_check(request.user):
+        dj_logout(request)
         return render(request, 'to_login.html', context={'login_url': settings.LOGIN_URL})
     return render(request, 'index.html')
 

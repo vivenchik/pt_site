@@ -24,6 +24,7 @@ def client_project(request, project_name):
 
 
 def user_login(request, project_name):
+    dj_logout(request)
     project = get_object_or_404(ClientProject, project_name=project_name)
     if request.method == 'POST':
         form = LoginForm(request.POST)
