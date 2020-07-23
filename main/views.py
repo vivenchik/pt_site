@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Project, MomentInProject
 from django.contrib.auth import logout as dj_logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 from django.conf import settings
 from .forms import MomentFormDetails, MomentFormImage
@@ -9,17 +9,27 @@ import datetime
 from django.urls import reverse
 
 
+def group_check(user):
+    user_groups = list(group.name for group in list(user.groups.all()))
+    return 'FREELANCER' in user_groups or 'EXCLUSIVE' in user_groups or 'INSIDER' in user_groups or user.is_staff
+
+
+def my_user_passes_test_group(func):
+    return user_passes_test(group_check, login_url='/', redirect_field_name='')(view_func=func)
+
+
 def my_login_required(func):
     return login_required(function=func, login_url='/', redirect_field_name='')
 
 
 def index(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not group_check(request.user):
         return render(request, 'to_login.html', context={'login_url': settings.LOGIN_URL})
     return render(request, 'index.html')
 
 
 @my_login_required
+@my_user_passes_test_group
 def project_page(request, project_name):
     project = get_object_or_404(Project, project_name=project_name)
     if request.user not in Project.objects.get(project_name=project_name).team.all():
@@ -69,6 +79,7 @@ def project_page(request, project_name):
 
 
 @my_login_required
+@my_user_passes_test_group
 def projects_list(request):
     projects = Project.objects.order_by('project_deadline')
     my_projects = Project.objects.filter(team__username=request.user.username)
@@ -81,6 +92,7 @@ def projects_list(request):
 
 
 @my_login_required
+@my_user_passes_test_group
 def personal(request):
     projects = Project.objects.filter(team__username=request.user.username)
     context = {
