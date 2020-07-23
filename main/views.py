@@ -7,6 +7,10 @@ from django.conf import settings
 from .forms import MomentFormDetails, MomentFormImage
 import datetime
 from django.urls import reverse
+from PIL import Image
+from django.core.files import File
+from django.http import Http404, FileResponse
+import os
 
 
 def group_check(user):
@@ -109,3 +113,35 @@ def personal(request):
 def logout(request):
     dj_logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
+
+
+def serve_protected_moment_images(request, file):
+    document = get_object_or_404(MomentInProject, moment_image="protected/moment_images/" + file).moment_image
+    try:
+        project = MomentInProject.objects.get(moment_image=document).project
+        if not request.user.is_authenticated or request.user not in project.team.all() and not request.user.is_staff:
+            return redirect(reverse('index'))
+    except MomentInProject.DoesNotExist:
+        if not request.user.is_staff:
+            raise Http404()
+
+    path, file_name = os.path.split(file)
+    response = FileResponse(document.file, )
+    response["Content-Disposition"] = "attachment; filename=" + file_name
+    return response
+
+
+def serve_protected_music(request, file):
+    document = get_object_or_404(Project, main_audio="protected/music/" + file).main_audio
+    try:
+        project = Project.objects.get(main_audio=document)
+        if not request.user.is_authenticated or request.user not in project.team.all() and not request.user.is_staff:
+            return redirect(reverse('index'))
+    except MomentInProject.DoesNotExist:
+        if not request.user.is_staff:
+            raise Http404()
+
+    path, file_name = os.path.split(file)
+    response = FileResponse(document.file, )
+    response["Content-Disposition"] = "attachment; filename=" + file_name
+    return response

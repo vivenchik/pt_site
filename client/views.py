@@ -48,7 +48,7 @@ def serve_protected_document(request, file):
     document = get_object_or_404(File, file="protected/client_files/" + file)
     try:
         project = ClientProject.objects.get(cell__files__file=document)
-        if not request.user.is_authenticated or request.user not in project.viewers.all():
+        if not request.user.is_authenticated or request.user not in project.viewers.all() and not request.user.is_staff:
             return redirect(reverse('client_login', args=[project.project_name]))
     except ClientProject.DoesNotExist:
         if not request.user.is_staff:

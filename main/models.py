@@ -13,7 +13,7 @@ class Project(models.Model):
     team = models.ManyToManyField(User, blank=True)
     number_of_moments = models.IntegerField(default=0)
 
-    main_audio = models.FileField(upload_to='music', blank=True)
+    main_audio = models.FileField(upload_to='protected/music', blank=True)
     google_drive_link = models.URLField(blank=True)
 
     def safe_save(self, *args, **kwargs):
@@ -42,7 +42,7 @@ class MomentInProject(models.Model):
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(default=datetime.now())
 
-    moment_image = models.ImageField(upload_to='moment_images', blank=True)
+    moment_image = models.ImageField(upload_to='protected/moment_images', blank=True)
 
     STATUS_CHOICES = (
         ('NR', 'Not Ready'),
