@@ -7,9 +7,7 @@ from django.conf import settings
 from .forms import MomentFormDetails, MomentFormImage
 import datetime
 from django.urls import reverse
-from PIL import Image
-from django.core.files import File
-from django.http import Http404, FileResponse
+from django.http import FileResponse
 import os
 
 
