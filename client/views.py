@@ -11,7 +11,7 @@ from django.http import FileResponse, Http404
 
 def client_project(request, project_name):
     project = get_object_or_404(ClientProject, project_name=project_name)
-    if not request.user.is_authenticated or request.user not in project.viewers.all():
+    if not request.user.is_authenticated or request.user not in project.viewers.all() and not request.user.is_staff:
         return redirect(reverse('client_login', args=[project_name]))
 
     cells = list(Cell.objects.filter(project__project_name=project_name).order_by('id'))
