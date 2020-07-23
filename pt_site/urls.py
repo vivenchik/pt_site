@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('client.urls')),
     path(r'', include('social_django.urls', namespace='social')),
 ]
-urlpatterns += static(settings.MEDIA_URL + "public/", document_root=settings.MEDIA_ROOT + "public/")
+urlpatterns += static(settings.MEDIA_URL + "public/", document_root=settings.MEDIA_ROOT + "/public/")
 
 if settings.DEBUG:
     import debug_toolbar

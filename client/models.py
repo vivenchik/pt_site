@@ -3,19 +3,30 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
 
 
-class Link(models.Model):
-    link = models.URLField(blank=True)
+class Icon(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    picture = models.ImageField(upload_to='public/icons', blank=True)
 
     def __str__(self):
-        return str(self.link)
+        return str(self.name)
+
+
+class Link(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    link = models.URLField(blank=True)
+    icon = models.ForeignKey(Icon, blank=True, null=True, on_delete=models.SET(None))
+
+    def __str__(self):
+        return str(self.name)
 
 
 class File(models.Model):
     name = models.CharField(max_length=100, blank=True)
     file = models.FileField(upload_to='protected/client_files', blank=True)
+    icon = models.ForeignKey(Icon, blank=True, null=True, on_delete=models.SET(None))
 
     def __str__(self):
-        return str(self.file.name)
+        return str(self.name)
 
 
 class ClientProject(models.Model):
