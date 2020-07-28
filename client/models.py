@@ -4,16 +4,16 @@ from django.contrib.auth.models import User
 
 
 class Icon(models.Model):
-    name = models.CharField(max_length=100, blank=True)
-    picture = models.ImageField(upload_to='public/icons', blank=True)
+    name = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to='public/icons')
 
     def __str__(self):
         return str(self.name)
 
 
 class Link(models.Model):
-    name = models.CharField(max_length=100, blank=True)
-    link = models.URLField(blank=True)
+    name = models.CharField(max_length=100)
+    link = models.URLField()
     icon = models.ForeignKey(Icon, blank=True, null=True, on_delete=models.SET(None))
 
     def __str__(self):
@@ -21,8 +21,8 @@ class Link(models.Model):
 
 
 class File(models.Model):
-    name = models.CharField(max_length=100, blank=True)
-    file = models.FileField(upload_to='protected/client_files', blank=True)
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='protected/client_files')
     icon = models.ForeignKey(Icon, blank=True, null=True, on_delete=models.SET(None))
 
     def __str__(self):
@@ -31,7 +31,7 @@ class File(models.Model):
 
 class ClientProject(models.Model):
     project_name = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField(max_length=2000, blank=True)
     viewers = models.ManyToManyField(User, blank=True)
 
     def save(self, *args, **kwargs):
@@ -53,12 +53,12 @@ class ClientProject(models.Model):
 
 
 class Cell(models.Model):
-    cell_name = models.CharField(max_length=100, blank=True)
+    cell_name = models.CharField(max_length=100)
     links = models.ManyToManyField(Link, blank=True)
     files = models.ManyToManyField(File, blank=True)
-    info = models.TextField(max_length=10000, blank=True)
+    info = models.TextField(max_length=500, blank=True)
     status = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
-    project = models.ForeignKey(ClientProject, on_delete=models.CASCADE, blank=True, null=True)
+    project = models.ForeignKey(ClientProject, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}::{}, Status:{}%'.format(self.project, self.cell_name, int(self.status * 100))
