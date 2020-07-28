@@ -19,7 +19,7 @@
                         <p class="card-text text-muted">Status: {% widthratio cell.status 1 100 %}%</p>
                         {% if cell.links %}
                             {% for link in cell.links.all %}
-                                <a href="{{ link }}" class="card-link" target="_blank">
+                                <a href="{{ link.link }}" class="card-link" target="_blank">
                                     {% if link.icon.picture %}
                                         <img src="{{ link.icon.picture.url }}" height="50px">
                                     {% else %}
@@ -30,7 +30,7 @@
                         {% endif %}
                         {% if cell.files %}
                             {% for file in cell.files.all %}
-                                <a href="{{ file.file.url }}" class="card-link" target="_blank">
+                                <a href="{{ file.file.url }}" class="card-link">
                                     {% if file.icon.picture %}
                                         <img src="{{ file.icon.picture.url }}" height="50px">
                                     {% else %}
