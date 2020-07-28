@@ -10,7 +10,7 @@
                 {% if project.main_audio %}
                     <br><br>
                     <audio controls preload="auto">
-                        <source src="{{ project.main_audio.url }}" type="audio/mpeg" />
+                        <source src="{{ project.main_audio.url }}"/>
                     </audio>
                 {% endif %}
                 <hr>
@@ -24,7 +24,9 @@
                     <br>
                 {% endfor %}
                 <hr>
-                <a href="{{ project.google_drive_link }}" target="_blank">Google Drive</a>
+                {% if project.google_drive_link %}
+                    <a href="{{ project.google_drive_link }}" target="_blank">Google Drive</a>
+                {% endif %}
             </p>
         </div>
     </div>
