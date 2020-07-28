@@ -120,7 +120,7 @@ def serve_protected_file(request, file, document, project):
 
     path, file_name = os.path.split(file)
     response = FileResponse(document.file, )
-    response["Content-Disposition"] = "attachment; filename=" + file_name
+    response["Content-Disposition"] = "inline; filename=" + file_name
     return response
 
 
