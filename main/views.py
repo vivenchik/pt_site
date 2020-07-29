@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Project, MomentInProject
+from .models import Project, MomentInProject, Document
 from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 from django.conf import settings
-from .forms import MomentFormDetails, MomentFormImage, ProfileForm, UserForm
+from .forms import MomentFormDetails, MomentFormImage, ProfileForm, UserForm, DocumentForm
 import datetime
 from django.urls import reverse
 from django.http import FileResponse
@@ -141,6 +141,27 @@ def update_profile(request):
     })
 
 
+@my_login_required
+@my_user_passes_test_group
+def documents_page(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            Document.objects.create(user=request.user,
+                                    name=form.cleaned_data['name'], file=form.cleaned_data['file'])
+        return redirect(reverse('documents_page'))
+    else:
+        form = DocumentForm()
+
+    documents = list(Document.objects.filter(user=request.user).order_by('-id'))
+
+    context = {
+        'documents': documents,
+        'form': form,
+    }
+    return render(request, 'documents_page.html', context)
+
+
 def serve_protected_file(request, file, document, project):
     if not request.user.is_authenticated or request.user not in project.team.all() and not request.user.is_staff:
         return redirect(reverse('index'))
@@ -163,3 +184,15 @@ def serve_protected_music(request, file):
     project = Project.objects.get(main_audio=document)
 
     return serve_protected_file(request, file, document, project)
+
+
+@my_login_required
+def serve_protected_documents(request, file):
+    document = get_object_or_404(Document, file="protected/documents/" + file)
+    if request.user != document.user and not request.user.is_staff:
+        return redirect(reverse('documents_page'))
+
+    path, file_name = os.path.split(file)
+    response = FileResponse(document.file.file, )
+    response["Content-Disposition"] = "inline; filename=" + file_name
+    return response

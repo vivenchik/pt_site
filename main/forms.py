@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile, Document
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -43,3 +43,8 @@ class ProfileForm(forms.ModelForm):
             raise ValidationError(_('telegram must start with @'))
 
         return data
+
+
+class DocumentForm(forms.Form):
+    name = forms.CharField()
+    file = forms.FileField()

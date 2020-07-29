@@ -45,7 +45,11 @@
             {% endif %}
 
             <hr>
-            <a href="{% url 'profile' %}">Change Profile</a>
+            <div>
+                <a href="{% url 'profile' %}">Change Profile</a>
+                <br>
+                <a href="{% url 'documents_page' %}">My Documents</a>
+            </div>
             <hr>
             {% if projects %}
                 <ul>

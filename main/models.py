@@ -34,6 +34,15 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+class Document(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='protected/documents')
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Project(models.Model):
     project_name = models.CharField(max_length=100)
     project_status = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(1)])
