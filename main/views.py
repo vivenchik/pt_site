@@ -4,17 +4,19 @@ from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 from django.conf import settings
-from .forms import MomentFormDetails, MomentFormImage, ProfileForm, UserForm, DocumentForm
+from .forms import MomentFormDetails, MomentFormImage, ProfileForm, UserForm, DocumentForm, BooleanCheckForm
 import datetime
 from django.urls import reverse
 from django.http import FileResponse
 import os
 from django.db import transaction
+from django import forms
 
 
 def group_check(user):
     user_groups = list(group.name for group in list(user.groups.all()))
-    return 'FREELANCER' in user_groups or 'EXCLUSIVE' in user_groups or 'INSIDER' in user_groups or user.is_staff
+    in_group = 'FREELANCER' in user_groups or 'EXCLUSIVE' in user_groups or 'INSIDER' in user_groups or user.is_staff
+    return in_group and user.profile.user_agreement
 
 
 def my_user_passes_test_group(func):
@@ -26,10 +28,28 @@ def my_login_required(func):
 
 
 def index(request):
-    if not request.user.is_authenticated or not group_check(request.user):
+    if not request.user.is_authenticated:
+        return render(request, 'to_login.html', context={'login_url': settings.LOGIN_URL})
+    if not request.user.profile.user_agreement:
+        return user_agreement(request)
+    if not group_check(request.user):
         dj_logout(request)
         return render(request, 'to_login.html', context={'login_url': settings.LOGIN_URL})
     return render(request, 'index.html')
+
+
+def user_agreement(request):
+    if request.method == 'POST':
+        form = BooleanCheckForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['value']:
+                request.user.profile.user_agreement = True
+                request.user.save()
+                return redirect(reverse('index'))
+    form = BooleanCheckForm()
+    return render(request, 'user_agreement.html', {
+        'form': form,
+    })
 
 
 @my_login_required

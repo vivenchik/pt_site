@@ -10,6 +10,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_agreement = models.BooleanField(default=False)
     bio = models.TextField(max_length=1000, blank=True)
     phone = PhoneNumberField(blank=True)
     telegram = models.CharField(max_length=30, blank=True)

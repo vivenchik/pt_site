@@ -48,3 +48,7 @@ class ProfileForm(forms.ModelForm):
 class DocumentForm(forms.Form):
     name = forms.CharField()
     file = forms.FileField()
+
+
+class BooleanCheckForm(forms.Form):
+    value = forms.BooleanField()
