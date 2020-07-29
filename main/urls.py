@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^media/protected/moment_images/(?P<file>.*)/$', views.serve_protected_moment_images, name='serve_protected_moment_images'),
     url(r'^media/protected/music/(?P<file>.*)/$', views.serve_protected_music, name='serve_protected_music'),
     url(r'^media/protected/documents/(?P<file>.*)/$', views.serve_protected_documents, name='serve_protected_documents'),
-    url(r'personal/profile/', views.update_profile, name='profile'),
-    url(r'personal/documents/', views.documents_page, name='documents_page'),
+    path(r'personal/profile/', views.update_profile, name='profile'),
+    path(r'personal/documents/', views.documents_page, name='documents_page'),
 ]
