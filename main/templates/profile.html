@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row p-3">
+            <form method="post">
+              {% csrf_token %}
+                {{ user_form.as_p }}
+              {{ profile_form.as_p }}
+              <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

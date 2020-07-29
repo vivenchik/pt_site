@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'client.apps.ClientConfig',
     'social_django',
+    'phonenumber_field',
 ]
 
 AUTHENTICATION_BACKENDS = (

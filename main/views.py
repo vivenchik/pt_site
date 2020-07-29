@@ -4,11 +4,12 @@ from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import redirect
 from django.conf import settings
-from .forms import MomentFormDetails, MomentFormImage
+from .forms import MomentFormDetails, MomentFormImage, ProfileForm, UserForm
 import datetime
 from django.urls import reverse
 from django.http import FileResponse
 import os
+from django.db import transaction
 
 
 def group_check(user):
@@ -98,13 +99,19 @@ def projects_list(request):
 @my_user_passes_test_group
 def personal(request):
     projects = Project.objects.filter(team__username=request.user.username)
+    if request.user.is_staff:
+        groups = 'STAFF'
+    else:
+        groups = ''.join([group.name + ' ' for group in list(request.user.groups.all())])
+
     context = {
         'username': request.user.username,
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,
         'email': request.user.email,
-        'groups': request.user.groups.all()[0].name if len(request.user.groups.all()) != 0 else '',  # TODO
+        'groups': groups,
         'projects': projects,
+        'profile': request.user.profile,
     }
     return render(request, 'personal.html', context)
 
@@ -112,6 +119,26 @@ def personal(request):
 def logout(request):
     dj_logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
+
+
+@my_login_required
+@my_user_passes_test_group
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect(reverse('personal'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
 
 
 def serve_protected_file(request, file, document, project):
