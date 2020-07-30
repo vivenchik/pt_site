@@ -1,47 +1,61 @@
 {% extends 'base_client.html' %}
 
+{% block title %}{{ project_name }}{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <hr>
-        <p class="h3">
-            Project Name: {{ project_name }}
+
+    <div class="page-title">
+        <h4>
+            {{ project_name }}
             <a href="{% url 'client_logout' project_name %}" class="float-right">Logout {{ username }}</a>
-        </p>
-        <div class="card-deck">
-            {% for cell in cells %}
-                <div class="card
-                {% if cell.status == 1 %} border-success
-                {% else %} border-secondary
-                {% endif %} mt-4" style="min-width: 300px; border-width:4px;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ cell.cell_name }}</h5>
-                        <h6 class="card-subtitle text-muted">{{ cell.info }}</h6>
-                        <p class="card-text text-muted">Status: {% widthratio cell.status 1 100 %}%</p>
-                        {% if cell.links %}
-                            {% for link in cell.links.all %}
-                                <a href="{{ link.link }}" class="card-link" target="_blank">
+        </h4>
+    </div>
+
+    <div class="row row-flex">
+    {% for cell in cells %}
+        <div class="col-md-4 p-2">
+            <div class="card" style="height: 90%;">  {#TODO#}
+                <div class="card-heading">
+                    <h4 class="card-title">{{ cell.cell_name }} ({% widthratio cell.status 1 100 %}%)</h4>
+                </div>
+                <div class="card-body">
+                    <pre>{{ cell.info }}</pre>
+                </div>
+                <div class="card-footer border top">
+                    <ul class="list-unstyled list-inline pdd-vertical-5">
+                    {% if cell.links %}
+                        {% for link in cell.links.all %}
+                            <li class="list-inline-item">
+                                <a href="{{ link.link }}" target="_blank">
                                     {% if link.icon.picture %}
-                                        <img src="{{ link.icon.picture.url }}" height="50px">
+                                        <img src="{{ link.icon.picture.url }}" height="40px">
                                     {% else %}
                                         {{ link }}
                                     {% endif %}
                                 </a>
-                            {% endfor %}
-                        {% endif %}
-                        {% if cell.files %}
-                            {% for file in cell.files.all %}
-                                <a href="{{ file.file.url }}" class="card-link" target="_blank">
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if cell.files %}
+                        {% for file in cell.files.all %}
+                            <li class="list-inline-item">
+                                <a href="{{ file.file.url }}" target="_blank">
                                     {% if file.icon.picture %}
-                                        <img src="{{ file.icon.picture.url }}" height="50px">
+                                        <img src="{{ file.icon.picture.url }}" height="40px">
                                     {% else %}
                                         {{ file }}
                                     {% endif %}
                                 </a>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    </ul>
                 </div>
-            {% endfor %}
+            </div>
         </div>
+    {% endfor %}
     </div>
+
+<!-- Content Wrapper END -->
+
 {% endblock %}

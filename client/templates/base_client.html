@@ -1,38 +1,68 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>{% block title %}POST TRIBE{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-  </head>
-  <body>
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+        <title>{% block title %}{% endblock %}</title>
 
 
+        <!-- plugins css -->
+        <link rel="stylesheet" href="{% static 'vendors/bootstrap/dist/css/bootstrap.css' %}"/>
+        <link rel="stylesheet" href="{% static 'vendors/PACE/themes/blue/pace-theme-minimal.css' %}" />
+        <link rel="stylesheet" href="{% static 'vendors/perfect-scrollbar/css/perfect-scrollbar.min.css' %}" />
 
-    {% block content %}{% endblock %}
+        <!-- page plugins css -->
 
-    <div class="rasp"></div>
-    <footer class="page-footer pt-4 bg-light">
-      <div class="container text-center">
-        <a href="tg://resolve?domain=DavidBintsenee" class="m-2 social"><i class="fa fa-telegram fa-3x"></i></a>
-        <a href="https://wa.me/79852844162" class="m-2 social" target="_blank"><i class="fa fa-whatsapp fa-3x"></i></a>
-        <a href="tel:+7 985 284-41-62" class="m-2 social"><i class="fa fa-phone fa-3x"></i></a>
-      </div>
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://post-tribe.com/" target="_blank"> POST TRIBE</a>
+        <!-- core css -->
+        <link href="{% static 'css/ei-icon.css' %}" rel="stylesheet">
+        <link href="{% static 'css/themify-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/app.css' %}" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <!-- Content Wrapper START -->
+        <div class="main-content p-3">
+            <div class="container-fluid">
+                <!-- Your content goes here -->
+                {% block content %}{% endblock %}
+            </div>
         </div>
-    </footer>
+        <!-- Content Wrapper END -->
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-  </body>
+        <!-- Footer START -->
+        <footer class="content-footer">
+            <div class="footer">
+                <div class="copyright">
+                    <span>Copyright © 2020.</span>
+                    <span class="go-right">
+                        <a href="tg://resolve?domain=DavidBintsenee" class="text-gray mrg-right-15">Telegram</a>
+                        <a href="https://wa.me/79852844162" class="text-gray mrg-right-15" target="_blank">WhatsApp</a>
+                        <a href="tel:+7 985 284-41-62" class="text-gray">Phone</a>
+                    </span>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer END -->
+
+
+        <!-- build:js assets/js/vendor.js -->
+        <!-- plugins js -->
+        <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'vendors/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.js' %}"></script>
+        <script src="{% static 'vendors/PACE/pace.min.js' %}"></script>
+        <script src="{% static 'vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+        <!-- endbuild -->
+
+        <!-- build:js assets/js/app.min.js -->
+        <!-- core js -->
+        <script src="{% static 'js/app.js' %}"></script>
+        <!-- endbuild -->
+
+        <!-- Insert your dependencies here -->
+    </body>
 </html>

@@ -33,6 +33,7 @@ class ClientProject(models.Model):
     project_name = models.CharField(max_length=100)
     description = models.TextField(max_length=2000, blank=True)
     viewers = models.ManyToManyField(User, blank=True)
+    logo = models.ImageField(upload_to='public/logos', blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

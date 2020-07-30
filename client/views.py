@@ -36,7 +36,7 @@ def user_login(request, project_name):
                 return redirect(reverse('client_project', args=[project_name]))
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form, 'logo': project.logo})
 
 
 def user_logout(request, project_name):
