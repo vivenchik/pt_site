@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth import logout as dj_logout
 import os
 from django.http import FileResponse, Http404
+import re
 
 
 def client_project(request, project_name):
@@ -15,10 +16,17 @@ def client_project(request, project_name):
         return redirect(reverse('client_login', args=[project_name]))
 
     cells = list(Cell.objects.filter(project__project_name=project_name).order_by('id'))
+    wa = ''.join(re.findall(r'\d+', project.contact_whatsapp))
+    if wa and wa[0] == '8':
+        wa = '7' + wa[1:]
     context = {
         'project_name': project_name,
         'cells': cells,
         'username': request.user.username,
+        'telegram': project.contact_telegram,
+        'whatsapp': wa,
+        'phone': project.contact_phone,
+        'email': project.contact_email,
     }
     return render(request, 'client_project.html', context)
 

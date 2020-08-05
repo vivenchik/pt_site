@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Icon(models.Model):
@@ -34,6 +35,11 @@ class ClientProject(models.Model):
     description = models.TextField(max_length=2000, blank=True)
     viewers = models.ManyToManyField(User, blank=True)
     logo = models.ImageField(upload_to='public/logos', blank=True)
+
+    contact_phone = PhoneNumberField(blank=True)
+    contact_telegram = models.CharField(max_length=30, blank=True)
+    contact_whatsapp = models.CharField(max_length=30, blank=True)
+    contact_email = models.EmailField(max_length=30, blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

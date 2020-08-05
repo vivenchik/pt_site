@@ -29,20 +29,7 @@
         </div>
         <!-- Content Wrapper END -->
 
-        <!-- Footer START -->
-        <footer class="content-footer" style="margin-top: -20px;">
-            <div class="footer">
-                <div class="copyright">
-                    <span>Copyright © 2020.</span>
-                    <span class="go-right">
-                        <a href="tg://resolve?domain=DavidBintsenee" class="text-gray mrg-right-15">Telegram</a>
-                        <a href="https://wa.me/79852844162" class="text-gray mrg-right-15" target="_blank">WhatsApp</a>
-                        <a href="tel:+7 985 284-41-62" class="text-gray">Phone</a>
-                    </span>
-                </div>
-            </div>
-        </footer>
-        <!-- Footer END -->
+        {% block footer %}{% endblock %}
 
         <!-- plugins js -->
         <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
