@@ -6,13 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
         <title>{% block title %}{% endblock %}</title>
 
-
         <!-- plugins css -->
         <link rel="stylesheet" href="{% static 'vendors/bootstrap/dist/css/bootstrap.css' %}"/>
         <link rel="stylesheet" href="{% static 'vendors/PACE/themes/blue/pace-theme-minimal.css' %}" />
         <link rel="stylesheet" href="{% static 'vendors/perfect-scrollbar/css/perfect-scrollbar.min.css' %}" />
-
-        <!-- page plugins css -->
 
         <!-- core css -->
         <link href="{% static 'css/ei-icon.css' %}" rel="stylesheet">
@@ -20,7 +17,6 @@
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/app.css' %}" rel="stylesheet">
-
     </head>
 
     <body>
@@ -34,7 +30,7 @@
         <!-- Content Wrapper END -->
 
         <!-- Footer START -->
-        <footer class="content-footer">
+        <footer class="content-footer" style="margin-top: -20px;">
             <div class="footer">
                 <div class="copyright">
                     <span>Copyright © 2020.</span>
@@ -48,8 +44,6 @@
         </footer>
         <!-- Footer END -->
 
-
-        <!-- build:js assets/js/vendor.js -->
         <!-- plugins js -->
         <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
         <script src="{% static 'vendors/popper.js/dist/umd/popper.min.js' %}"></script>
@@ -58,11 +52,8 @@
         <script src="{% static 'vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
         <!-- endbuild -->
 
-        <!-- build:js assets/js/app.min.js -->
         <!-- core js -->
         <script src="{% static 'js/app.js' %}"></script>
         <!-- endbuild -->
-
-        <!-- Insert your dependencies here -->
     </body>
 </html>

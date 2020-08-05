@@ -3,7 +3,6 @@
 {% block title %}{{ project_name }}{% endblock %}
 
 {% block content %}
-
     <div class="page-title">
         <h4>
             {{ project_name }}
@@ -13,13 +12,16 @@
 
     <div class="row row-flex">
     {% for cell in cells %}
-        <div class="col-md-4 p-2">
-            <div class="card" style="height: 90%;">  {#TODO#}
+        <div class="col-md-4" style="margin-bottom: 30px;">
+            <div class="card mb-auto" style="height: 100%;">
                 <div class="card-heading">
-                    <h4 class="card-title">{{ cell.cell_name }} ({% widthratio cell.status 1 100 %}%)</h4>
+                    <h4 class="card-title">
+                        {{ cell.cell_name }}
+                        <div class="float-right">{% widthratio cell.status 1 100 %}%</div>
+                    </h4>
                 </div>
-                <div class="card-body">
-                    <pre>{{ cell.info }}</pre>
+                <div class="card-body" style="margin-top: -10px;">
+                    {{ cell.info }}
                 </div>
                 <div class="card-footer border top">
                     <ul class="list-unstyled list-inline pdd-vertical-5">
@@ -55,7 +57,6 @@
         </div>
     {% endfor %}
     </div>
-
 <!-- Content Wrapper END -->
 
 {% endblock %}

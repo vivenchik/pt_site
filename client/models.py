@@ -39,15 +39,15 @@ class ClientProject(models.Model):
         super().save(*args, **kwargs)
 
         if len(list(Cell.objects.filter(project=self))) == 0:
-            Cell.objects.create(cell_name='brief', project=self)
-            Cell.objects.create(cell_name='creative', project=self)
-            Cell.objects.create(cell_name='contract', project=self)
-            Cell.objects.create(cell_name='treatment', project=self)
-            Cell.objects.create(cell_name='plan', project=self)
-            Cell.objects.create(cell_name='previs', project=self)
-            Cell.objects.create(cell_name='draft', project=self)
-            Cell.objects.create(cell_name='master', project=self)
-            Cell.objects.create(cell_name='assessment', project=self)
+            Cell.objects.create(cell_name='brief'.upper(), project=self)
+            Cell.objects.create(cell_name='creative'.upper(), project=self)
+            Cell.objects.create(cell_name='contract'.upper(), project=self)
+            Cell.objects.create(cell_name='treatment'.upper(), project=self)
+            Cell.objects.create(cell_name='plan'.upper(), project=self)
+            Cell.objects.create(cell_name='previs'.upper(), project=self)
+            Cell.objects.create(cell_name='draft'.upper(), project=self)
+            Cell.objects.create(cell_name='master'.upper(), project=self)
+            Cell.objects.create(cell_name='assessment'.upper(), project=self)
 
     def __str__(self):
         return str(self.project_name)
