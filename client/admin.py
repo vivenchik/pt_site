@@ -3,7 +3,7 @@ from .models import Cell, ClientProject, Link, File, Icon
 
 
 @admin.register(Cell)
-class ClientProjectAdmin(admin.ModelAdmin):
+class CellAdmin(admin.ModelAdmin):
     list_filter = ('project',)
     ordering = ('id',)
 
