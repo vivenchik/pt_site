@@ -25,7 +25,7 @@ SECRET_KEY = '2p)*pn+9%qd9=w1^0mi0(d5$_(@^2igm6-au6pt!nue!ou=h&@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,25 +37,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
+    # 'main.apps.MainConfig',
     'client.apps.ClientConfig',
-    'social_django',
+    # 'social_django',
     'phonenumber_field',
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1089728886954-009j1se6ohbncospb3pr3vrb9urmv7la.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'DZaPBEIjRalByJ9TYA58QV3T'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1089728886954-009j1se6ohbncospb3pr3vrb9urmv7la.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'DZaPBEIjRalByJ9TYA58QV3T'
 
-LOGIN_URL = '/login/google-oauth2/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+# LOGIN_URL = '/login/google-oauth2/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,11 +138,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
 
 # debug toolbar
 
-MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-INSTALLED_APPS.append('debug_toolbar')
-INTERNAL_IPS = ('127.0.0.1', 'localhost')
+# MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+# INSTALLED_APPS.append('debug_toolbar')
+# INTERNAL_IPS = ('127.0.0.1', 'localhost')
