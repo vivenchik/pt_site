@@ -7,12 +7,10 @@
     <div class="page-title">
         <h4>
             {{ project_name }}
-            <div class="float-right">
-                {% if staffstatus %}
-                    <a href="#"><img src="{% static 'folder.png' %}" height="40px" class="mrg-right-15"></a>
-                {% endif %}
-                <a href="{% url 'client_logout' project_name %}">Logout {{ username }}</a>
-            </div>
+            <a href="{% url 'client_logout' project_name %}" class="float-right">Logout {{ username }}</a>
+            {% if staffstatus %}
+                <a href="#" class="float-right"><img src="{% static 'folder.png' %}" height="30px" class="mrg-right-15 mb-2"></a>
+            {% endif %}
         </h4>
     </div>
 
