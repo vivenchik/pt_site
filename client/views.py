@@ -27,6 +27,7 @@ def client_project(request, project_name):
         'whatsapp': wa,
         'phone': project.contact_phone,
         'email': project.contact_email,
+        'staffstatus': request.user.is_staff,
     }
     return render(request, 'client_project.html', context)
 

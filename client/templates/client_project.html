@@ -1,4 +1,5 @@
 {% extends 'base_client.html' %}
+{% load static %}
 
 {% block title %}{{ project_name }}{% endblock %}
 
@@ -6,7 +7,12 @@
     <div class="page-title">
         <h4>
             {{ project_name }}
-            <a href="{% url 'client_logout' project_name %}" class="float-right">Logout {{ username }}</a>
+            <div class="float-right">
+                {% if staffstatus %}
+                    <a href="#"><img src="{% static 'folder.png' %}" height="40px" class="mrg-right-15"></a>
+                {% endif %}
+                <a href="{% url 'client_logout' project_name %}">Logout {{ username }}</a>
+            </div>
         </h4>
     </div>
 
@@ -21,7 +27,7 @@
                     </h4>
                 </div>
                 <div class="card-body" style="margin-top: -10px;">
-                    {{ cell.info }}
+                    {{ cell.info|linebreaksbr }}
                 </div>
                 <div class="card-footer border top">
                     <ul class="list-unstyled list-inline pdd-vertical-5">
@@ -79,7 +85,7 @@
                 {% if email %}
                     <a href="mailto:{{ email }}" class="text-gray mrg-right-15">Email</a>
                 {% endif %}
-                <a href="https://post-tribe.com" class="text-gray">POST TRIBE</a>
+                <a href="https://post-tribe.com" class="text-gray" target="_blank">POST TRIBE</a>
             </span>
         </div>
     </div>
