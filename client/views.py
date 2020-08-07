@@ -67,3 +67,9 @@ def serve_protected_document(request, file):
     response = FileResponse(document.file, )
     response["Content-Disposition"] = "inline; filename=" + file_name
     return response
+
+
+def serve_document(request, file):
+    response = FileResponse(open("media/public/" + file, 'rb'), )
+    response["Content-Disposition"] = "inline"
+    return response
